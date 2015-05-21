@@ -4,11 +4,15 @@
 from fractions import gcd
 import random
 
-primes = [52225826216283694472093, 64695235256140913657017,
-          36297494658228210202973, 31155565732826674528429,
-          64156422650326195323241, 9491097298620527384257,
-          89595162380538365029307, 26642104611992532346009]
-
+primes = [18966162103181877137104002000766961367217593615563,
+          68527737995994650959675943774385180922666948136813,
+          30281242611165201445430702074791135258029928737927,
+          45406516671300548333311814388168688603381985062613,
+          97038736927236393600823373710502730009860820708979,
+          35963516379667279099632691498218709389825006221563,
+          39074083144091764365782913889746140369634051774269,
+          87829406556868104208432501228923251337658475933903]
+          
 #egcd() and modinv() courtesy of stackoverflow
 def egcd(a, b):
     if a == 0:
@@ -30,8 +34,26 @@ def coprime(num):
     for co in range(13, num):
         if gcd(co,tn) == 1:
             return co
-	
+
+def str_to_list(text):
+    chars = []
+    for letter in text:
+        chars.append( ord(letter) )
+    return chars
+
+def list_to_str(chars):
+    text = ""
+    for char in chars:
+        text += chr(int(char))
+    return text
 ############encryption stuff###########
+def encrypt(num, pub_key1, pub_key2):
+    return pow(num, pub_key1, pub_key2) #same as num**k1 % k2
+
+def decrypt(num, priv_key, pub_key2):
+    return pow(num, priv_key, pub_key2)
+
+###generate keys###
 p = random.choice(primes)
 q = random.choice(primes)
 
@@ -45,12 +67,15 @@ print("Public Keys:",e,",",n)
 print("Private key d:",d)
 #private: d, p, q, tn
 
-message = 1234
-print("\nMessage:",message)
+message = input("\nMessage:")
 
-encrypted = pow(message, e, n) #same as message**e % n
+encrypted = []
+for i in str_to_list(message):
+    encrypted.append(encrypt(i, e, n))
 print("Encrypted Message:",encrypted)
 
-#pk = int(input("Enter private key (d):"))
-decrypted = pow(encrypted, d, n)
-print("Decrypted Message:",decrypted)
+pk = int(input("\nEnter private key (d):"))
+decrypted = []
+for i in encrypted:
+    decrypted.append(decrypt(i, pk, n))
+print("\nDecrypted Message:",list_to_str(decrypted))
