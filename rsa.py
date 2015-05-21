@@ -44,7 +44,10 @@ def str_to_list(text):
 def list_to_str(chars):
     text = ""
     for char in chars:
-        text += chr(int(char))
+        try:
+            text += chr(int(char))
+        except OverflowError:
+            pass
     return text
 ############encryption stuff###########
 def encrypt(num, pub_key1, pub_key2):
