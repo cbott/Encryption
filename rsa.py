@@ -1,6 +1,7 @@
 #Learning how RSA encryption works
 #basic demonstration of encryption/decryption
 
+from conv import *
 from fractions import gcd
 import random
 
@@ -72,13 +73,10 @@ print("Private key d:",d)
 
 message = input("\nMessage:")
 
-encrypted = []
-for i in str_to_list(message):
-    encrypted.append(encrypt(i, e, n))
+number_msg = s2n(message)
+encrypted = encrypt(number_msg, e, n)
 print("Encrypted Message:",encrypted)
 
 pk = int(input("\nEnter private key (d):"))
-decrypted = []
-for i in encrypted:
-    decrypted.append(decrypt(i, pk, n))
-print("\nDecrypted Message:",list_to_str(decrypted))
+decrypted = decrypt(encrypted, pk, n)
+print("\nDecrypted Message:",n2s(decrypted))
