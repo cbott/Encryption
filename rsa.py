@@ -36,20 +36,6 @@ def coprime(num):
         if gcd(co,tn) == 1:
             return co
 
-def str_to_list(text):
-    chars = []
-    for letter in text:
-        chars.append( ord(letter) )
-    return chars
-
-def list_to_str(chars):
-    text = ""
-    for char in chars:
-        try:
-            text += chr(int(char))
-        except OverflowError:
-            pass
-    return text
 ############encryption stuff###########
 def encrypt(num, pub_key1, pub_key2):
     return pow(num, pub_key1, pub_key2) #same as num**k1 % k2
@@ -64,7 +50,7 @@ q = random.choice(primes)
 n = p*q #n is multiple of 2 large primes
 tn = (p-1)*(q-1)
 
-e = coprime(tn)
+e = 65537#coprime(tn)
 d = modinv( e , tn )
 
 print("Public Keys:",e,",",n)
@@ -74,6 +60,8 @@ print("Private key d:",d)
 message = input("\nMessage:")
 
 number_msg = s2n(message)
+
+print("\nEncrypting:",number_msg)
 encrypted = encrypt(number_msg, e, n)
 print("Encrypted Message:",encrypted)
 

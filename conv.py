@@ -19,8 +19,8 @@ def n2s(n):
     for i in range(0,len(num),3):
         digits = int(num[i:i+3])
         char = chr(digits)
-        text += char
-    return text[::-1]
+        text = char + text
+    return text
 
 ##t = input("Text:")
 ##
