@@ -1,23 +1,34 @@
 #Learning how RSA encryption works
 #basic demonstration of encryption/decryption
+#RSA: Ron Rivest, Adi Shamir, and Leonard Adleman
 
 from conv import *
 from fractions import gcd
 import random
 
 primes = [18966162103181877137104002000766961367217593615563,
+          
           68527737995994650959675943774385180922666948136813,
+          
           30281242611165201445430702074791135258029928737927,
+          
           45406516671300548333311814388168688603381985062613,
+          
           97038736927236393600823373710502730009860820708979,
+          
           35963516379667279099632691498218709389825006221563,
+          
           39074083144091764365782913889746140369634051774269,
+          
           87829406556868104208432501228923251337658475933903,
+          
           99701007192486571157506448414512864891510440378097,
+          
           22562323080364605847165435922793394781582610307019,
+          
           72166658850906333926882447749629659951480345596937]
           
-#egcd() and modinv() courtesy of stackoverflow
+#egcd() and modinv() from stackoverflow
 def egcd(a, b):
     if a == 0:
         return (b, 0, 1)
@@ -47,8 +58,8 @@ def decrypt(num, priv_key, pub_key2):
     return pow(num, priv_key, pub_key2)
 
 ###generate keys###
-p = 21347#random.choice(primes)
-q = 24593#random.choice(primes)
+p = random.choice(primes)
+q = random.choice(primes)
 
 n = p*q #n is multiple of 2 large primes
 tn = (p-1)*(q-1)
@@ -60,27 +71,40 @@ d = modinv( e , tn )
 #public: e, n
 
 #public
-print("Alice wants to send a message to Bob")
-print("\nPublicly transmitted from Bob to Alice:")
+print("Bob wants to send a message to Alice")
+
+input()
+
+print("\nPublicly transmitted from Alice to Bob:")
 print("Public Keys:",e,",",n)
+
+input()
 
 #sender
 print("\nPrivate on Bob's machine:")
-
 message = input("Message:")
 
+input()
+
 number_msg = s2n(message)
-print("Encrypting:",number_msg)
+print("Text converted to number:",number_msg)
+
+input()
+
 encrypted = encrypt(number_msg, e, n)
 
 #public again
 print("\nBob's public tranmission to Alice")
 print("Encrypted Message:",encrypted)
 
-print("\nEve attempts to read message:")
-pk = int(input("Enter private key (hint, you can't, but you can try):"))
+input()
+
+print("\nEavesdropper attempts to read message:")
+pk = int(input("Enter private key (Unknown):"))
 decrypted = decrypt(encrypted, pk, n)
-print("Eve's Decrypted Message:",n2s(decrypted))
+print("Eavesdropper's Decrypted Message:",n2s(decrypted))
+
+input()
 
 #receiver
 print("\nPrivate on Alice's machine")
